@@ -1,6 +1,8 @@
 import { Component } from 'react';
 import { data } from '../data/users';
 import { UsersList } from './UsersList/UsersList';
+import { AddUserForm } from './AddUserForm/AddUserForm';
+import { nanoid } from 'nanoid';
 
 export class App extends Component {
   state = {
@@ -13,11 +15,21 @@ export class App extends Component {
     }));
   };
 
+  addUser = userData => {
+    const newUser = {
+      id: nanoid(),
+      ...userData,
+    };
+
+    this.setState(prevState => ({ users: [...prevState.users, newUser] }));
+  };
+
   render() {
     const { users } = this.state;
     return (
       <div>
         <UsersList users={users} deleteUser={this.deleteUser} />
+        <AddUserForm addUser={this.addUser} />
       </div>
     );
   }
